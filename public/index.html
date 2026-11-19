@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>直播流性能测试</title><style>:root{--bg:#f2f5fa;--surface:#fff;--ink:#172638;--muted:#53667e;--border:#dce5ef;--primary:#2459c4;--chart:#2459c4;--ok:#087653;--bad:#b42c36}
+*{box-sizing:border-box}
+body{font:15px system-ui;margin:0;background:var(--bg);color:var(--ink)}
+main{max-width:1560px;margin:auto;padding:28px clamp(14px,4vw,56px)}
+header{background:#142844;color:white;padding:26px;border-radius:16px;margin-bottom:18px}
+header p{margin:6px 0;color:#c6d6ec}h1{margin:0;font-size:28px}h2{font-size:17px;margin:0 0 12px}
+.toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+button,input,select{font:inherit;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink)}
+button{cursor:pointer}button:disabled{opacity:.48;cursor:default}
+#start{background:var(--primary);color:white;border-color:var(--primary)}
+.panel,article,.metric{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px}
+.panel{margin-bottom:18px}#summary{color:var(--muted)}
+#streams,#metrics{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+#streams{grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+#streams article{width:100%;max-width:400px;min-width:0}
+article input{width:100%;margin:8px 0}
+.video{aspect-ratio:16/9;background:#101929;position:relative;border-radius:8px;overflow:hidden}
+article p,.axis,.hint{font-size:13px;color:var(--muted)}
+article p[data-state="播放中"]{color:var(--ok)}article p[data-state="播放异常"]{color:var(--bad)}
+.metric-cpu{background:#eef5ff;border-color:#cbdef8}
+.metric h3{font-size:14px;margin:0;overflow-wrap:anywhere}
+.metric strong{font-size:26px;font-variant-numeric:tabular-nums}
+.metric small{margin-left:9px;color:var(--muted)}
+.metric svg{display:block;width:100%;height:76px;margin-top:6px}
+.axis{display:flex;justify-content:space-between}
+.readings,.plot{display:grid;gap:10px;margin-top:10px}
+.readings{grid-template-columns:1fr 1fr;color:var(--muted);font-size:13px}
+.readings strong{display:block;color:var(--ink);font-size:21px}
+.plot{grid-template-columns:auto minmax(0,1fr)}
+.ticks{display:flex;flex-direction:column;justify-content:space-between;height:76px;font-size:11px;color:var(--muted)}
+.plot svg{margin-top:0}
+article p{white-space:pre-line}
+</style></head>
+<body><main>
+<header><h1>直播流性能测试</h1><p>H.264 / H.265 · 多路播放与本机资源监测</p></header>
+<section class="panel toolbar" aria-label="播放设置">
+<label>播放路数 <select id="count"></select></label>
+<button id="start">开始播放</button><button id="stop" disabled>停止</button>
+<span id="summary" role="status"></span>
+</section>
+<section class="panel"><h2>本机资源监测</h2>
+<p class="hint">折线显示最近 60 秒的实时采样。近 1 分钟平均需连续播放并采满 60 秒。</p><p class="hint"><strong id="gpu-count">等待 GPU 采样</strong> · 按 Windows 性能计数器分组，可能包含虚拟适配器。页面编号与任务管理器编号独立，悬停卡片可查看原始 ID。</p>
+<div id="metrics">等待本机采样…</div></section>
+<section><h2>视频通道</h2><div id="streams"></div></section>
+</main>
+<script src="/jessibuca-pro.js"></script><script src="/app.js"></script>
+</body></html>
